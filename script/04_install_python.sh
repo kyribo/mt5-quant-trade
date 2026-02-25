@@ -24,10 +24,11 @@ echo "alias wpython='wine \"C:\\Python\\python.exe\"'" >> /root/.bash_aliases
 # Menambahkan pemuatan aliases
 echo "if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi" >> /root/.bashrc
 
+echo "cd /workspace || true" >> /root/.bashrc
 echo "echo '***************************************************'" >> /root/.bashrc
 echo "echo '* Selamat datang di Terminal MT5 Docker !         *'" >> /root/.bashrc
+echo "echo '* Direktori kerja saat ini berada di /workspace   *'" >> /root/.bashrc
 echo "echo '* Gunakan syntax berikut: wpython skrip_anda.py   *'" >> /root/.bashrc
-echo "echo '* Ini akan mengeksekusi C:\Python\python.exe Wine *'" >> /root/.bashrc
 echo "echo '***************************************************'" >> /root/.bashrc
 
 echo "Tahap 4 Selesai! File Python Installer telah diunduh di /root/python-installer.exe. Eksekusi akan ditangani secara tersembunyi oleh 05_start.sh."
