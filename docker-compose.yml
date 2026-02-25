@@ -1,0 +1,41 @@
+services:
+  mt5-kasmvnc:
+    build: .
+    container_name: mt5-container
+    # Memuat variabel dari .env (VNC_PORT, VNC_USER, VNC_PASSWORD)
+    env_file: .env
+    ports:
+      # Expose host port ke port 8444 dari container (KasmVNC HTTPS)
+      - "${VNC_PORT:-8444}:8444"
+    volumes:
+      - mt5_data:/root/.wine
+      - ./script/05_start.sh:/setup/script/05_start.sh
+      - ./:/workspace
+    restart: always
+
+  postgres-db:
+    image: postgres:17-alpine
+    container_name: postgres-db
+    env_file: .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  pgadmin-web:
+    image: dpage/pgadmin4
+    container_name: pgadmin-web
+    env_file: .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_MAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: always
+    depends_on:
+      - postgres-db
+
+volumes:
+  mt5_data:
+  postgres_data:
