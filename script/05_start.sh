@@ -111,6 +111,11 @@ if [ ! -f "$PYTHON_DIR/python.exe" ] && [ -f "/root/python-installer.exe" ]; the
     wine /root/python-installer.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0 TargetDir="C:\\Python" || true
     wineserver -k
     
+    if [ ! -f "/root/vc_redist.x64.exe" ]; then
+        echo "--> [Darurat] vc_redist.x64.exe tidak ditemukan! Mengunduh ulang dari server Microsoft..."
+        wget -q "https://aka.ms/vs/17/release/vc_redist.x64.exe" -O /root/vc_redist.x64.exe
+    fi
+
     if [ -f "/root/vc_redist.x64.exe" ]; then
         echo "--> Memperbarui Winetricks dari Sumber Master..."
         wget -q https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -O /usr/bin/winetricks

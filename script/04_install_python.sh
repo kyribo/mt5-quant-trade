@@ -20,7 +20,7 @@ wget -O /root/vc_redist.x64.exe "https://aka.ms/vs/17/release/vc_redist.x64.exe"
 
 echo "[2] Mempersiapkan Integrasi Terminal Linux (Bash Alias)..."
 # Mewajibkan bash linux untuk memanggil python HANYA melalui path absolut "C:\Python\python.exe"
-echo "alias wpython='wine \"C:\\Python\\python.exe\"'" >> /root/.bash_aliases
+echo "alias wpython='WINEDLLOVERRIDES=\"ucrtbase=n,b\" wine \"C:\\Python\\python.exe\"'" >> /root/.bash_aliases
 # Menambahkan pemuatan aliases
 echo "if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi" >> /root/.bashrc
 
