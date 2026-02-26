@@ -2,15 +2,15 @@
 # 04_install_python.sh
 set -e
 
-echo "Tahap 4: Mengunduh dan Menyiapkan Python 3.11 Windows (Embeddable Zip) untuk Wine..."
+echo "Tahap 4: Mengunduh dan Menyiapkan Python 3.9 Windows (Embeddable Zip) untuk Wine..."
 
 # Penentuan Versi & Path Absolut C:\Python
-PYTHON_ZIP_URL="https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
+PYTHON_ZIP_URL="https://www.python.org/ftp/python/3.9.13/python-3.9.13-embed-amd64.zip"
 PYTHON_DIR="/root/.wine/drive_c/Python"
 # Path absolut executable python milik Wine-Windows dalam terminologi path Linux:
 WINE_PYTHON_EXE="C:\\Python\\python.exe"
 
-echo "[1] Mengunduh Python 3.11 Windows (Embeddable Zip) ke direktori Root..."
+echo "[1] Mengunduh Python 3.9 Windows (Embeddable Zip) ke direktori Root..."
 mkdir -p "$PYTHON_DIR"
 apt-get update -y && apt-get install -y unzip curl
 wget -O /root/python.zip "$PYTHON_ZIP_URL"

@@ -102,15 +102,15 @@ fi
 PYTHON_DIR="/root/.wine/drive_c/Python"
 if [ ! -f "$PYTHON_DIR/python.exe" ] && [ -f "/root/python.zip" ]; then
     echo "========================================================================"
-    echo "Sinkronisasi Volume Tertunda: Mengekstrak Python 3.11 Embeddable..."
+    echo "Sinkronisasi Volume Tertunda: Mengekstrak Python 3.9 Embeddable..."
     echo "========================================================================"
     
     echo "--> Membuka arsip python.zip ke direktori Wine C:\Python..."
     unzip -q /root/python.zip -d "$PYTHON_DIR"
     
-    echo "--> Memodifikasi python311._pth agar mendukung instalasi module (pip)..."
+    echo "--> Memodifikasi python39._pth agar mendukung instalasi module (pip)..."
     # Menghilangkan tanda komentar pada '#import site' di konfigurasi Python Portable
-    sed -i 's/#import site/import site/g' "$PYTHON_DIR/python311._pth"
+    sed -i 's/#import site/import site/g' "$PYTHON_DIR/python39._pth"
     
     echo "--> Menginisialisasi PIP Package Manager untuk pertama kalinya..."
     # Memanggil installer PIP mandiri menggunakan Python yang baru diekstrak
