@@ -8,8 +8,8 @@ echo "========================================================================"
 
 PYTHON_EXE='wine "C:\Python\python.exe"'
 
-echo "--> Menginstal modul konektor MetaTrader5..."
-eval $PYTHON_EXE -m pip install MetaTrader5
+    echo "--> Menginstal modul konektor MetaTrader5 dan membatasi versi Numpy agar kompatibel dengan C-Runtime Wine..."
+eval $PYTHON_EXE -m pip install "numpy<2" MetaTrader5
 
 echo "--> Menginstal modul pendukung Database PostgreSQL (SQLAlchemy & psycopg2)..."
 eval $PYTHON_EXE -m pip install SQLAlchemy psycopg2-binary
