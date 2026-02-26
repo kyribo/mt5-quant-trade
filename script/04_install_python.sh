@@ -5,18 +5,18 @@ set -e
 echo "Tahap 4: Mengunduh dan Menyiapkan Python 3.11 Windows (Embeddable Zip) untuk Wine..."
 
 # Penentuan Versi & Path Absolut C:\Python
-PYTHON_EXE_URL="https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe"
+PYTHON_ZIP_URL="https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip"
 PYTHON_DIR="/root/.wine/drive_c/Python"
 # Path absolut executable python milik Wine-Windows dalam terminologi path Linux:
 WINE_PYTHON_EXE="C:\\Python\\python.exe"
 
-echo "[1] Mengunduh Installer Resmi Python 3.11 EXE ke direktori Root..."
+echo "[1] Mengunduh Python 3.11 Windows (Embeddable Zip) ke direktori Root..."
 mkdir -p "$PYTHON_DIR"
 apt-get update -y && apt-get install -y unzip curl
-wget -O /root/python-installer.exe "$PYTHON_EXE_URL"
+wget -O /root/python.zip "$PYTHON_ZIP_URL"
 
-echo "[1.5] Mengunduh Microsoft Visual C++ Redistributable 2015-2022..."
-wget -O /root/vc_redist.x64.exe "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+echo "[1.5] Mengunduh skrip get-pip.py..."
+wget -O /root/get-pip.py "https://bootstrap.pypa.io/get-pip.py"
 
 echo "[2] Mempersiapkan Integrasi Terminal Linux (Bash Alias)..."
 # Mewajibkan bash linux untuk memanggil python HANYA melalui path absolut "C:\Python\python.exe"

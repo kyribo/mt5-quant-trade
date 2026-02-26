@@ -100,38 +100,21 @@ if [ -f "/root/mt5setup.exe" ]; then
 fi
 
 PYTHON_DIR="/root/.wine/drive_c/Python"
-if [ ! -f "$PYTHON_DIR/python.exe" ] && [ -f "/root/python-installer.exe" ]; then
+if [ ! -f "$PYTHON_DIR/python.exe" ] && [ -f "/root/python.zip" ]; then
     echo "========================================================================"
-    echo "Sinkronisasi Volume Tertunda: Menginstal Python 3.11 EXE resmi..."
+    echo "Sinkronisasi Volume Tertunda: Mengekstrak Python 3.11 Embeddable..."
     echo "========================================================================"
     
-    echo "--> Memulai proses instalasi C Runtime dan instalasi basis Python..."
-    # Mengeksekusi silent install Python EXE
-    # InstallAllUsers=1 (Wajib agar TargetDir C: dipatuhi), PrependPath=1 (Tambah ke Path), Include_test=0 (Tanpa modultest)
-    wine /root/python-installer.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0 TargetDir="C:\\Python" || true
-    wineserver -k
+    echo "--> Membuka arsip python.zip ke direktori Wine C:\Python..."
+    unzip -q /root/python.zip -d "$PYTHON_DIR"
     
-    if [ ! -f "/root/vc_redist.x64.exe" ]; then
-        echo "--> [Darurat] vc_redist.x64.exe tidak ditemukan! Mengunduh ulang dari server Microsoft..."
-        wget -q "https://aka.ms/vs/17/release/vc_redist.x64.exe" -O /root/vc_redist.x64.exe
-    fi
-
-    if [ -f "/root/vc_redist.x64.exe" ]; then
-        echo "--> Memperbarui Winetricks dari Sumber Master..."
-        wget -q https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -O /usr/bin/winetricks
-        chmod +x /usr/bin/winetricks
-        
-        echo "--> Menginstal Microsoft Visual C++ 2015-2022 / UCRT (Bypass Win10 OS-Lock)..."
-        # Wine 10 dengan basis Windows 10 mengunci instalasi file UCRT .dll
-        # Bypass dengan mengubah profil OS ke Windows 7 sementara
-        winecfg -v win7
-        wineserver -k
-        winetricks -q vcrun2022
-        
-        echo "--> Mengembalikan profil OS ke Windows 10..."
-        winecfg -v win10
-        wineserver -k
-    fi
+    echo "--> Memodifikasi python311._pth agar mendukung instalasi module (pip)..."
+    # Menghilangkan tanda komentar pada '#import site' di konfigurasi Python Portable
+    sed -i 's/#import site/import site/g' "$PYTHON_DIR/python311._pth"
+    
+    echo "--> Menginisialisasi PIP Package Manager untuk pertama kalinya..."
+    # Memanggil installer PIP mandiri menggunakan Python yang baru diekstrak
+    WINEDLLOVERRIDES="ucrtbase=n,b" wine "$PYTHON_DIR/python.exe" /root/get-pip.py
     
     # Wine terkadang tidak mulus memasukkan Path Instalasi Python saat Instalasi EXE C:
     # Memastikan UCRT/Python tertancap kuat
